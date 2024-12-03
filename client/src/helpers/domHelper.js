@@ -1,24 +1,33 @@
-export let createFilter = (fitlers, values) => {
-    let containerFilter = document.createElement("div");
-    containerFilter.className = "filters";
-    Object.values(values).forEach((uniqueValuesFilter, index) => {
-      let span = document.createElement("span");
-      let strong = document.createElement("strong");
-      strong.textContent = `${fitlers[index]}:`;
-      span.appendChild(strong);
-      let selectFilter = document.createElement("select");
-      // creo un array de opciones para añadir al selector
-      let options = uniqueValuesFilter.map((option) => {
-        let optionTag = document.createElement("option");
-        optionTag.value = option;
-        optionTag.text = option;
-        if (option === "ALL") optionTag.selected = true;
-        return optionTag;
-      });
-      // Añadimmos las opciones al selector
-      selectFilter.append(...options);
-      containerFilter.append(span);
-      containerFilter.append(selectFilter);
-    });
-    return containerFilter; // Devolvemos el contenedor con los selectores y sus opciones
+
+export const createContainer = (className) => {
+    const container = document.createElement("div");
+    container.classList.add(className);
+    return container;
   };
+  
+  export const createCard = (news) => {
+    const card = document.createElement("div");
+    card.classList.add("card");
+  
+    const cardContent = document.createElement("div");
+    cardContent.classList.add("card-content");
+  
+    const title = document.createElement("h2");
+    title.classList.add("card-title");
+    title.textContent = news.source;  
+  
+    const description = document.createElement("p");
+    description.classList.add("card-description");
+    description.textContent = news.title;  
+  
+    const link = document.createElement("a");
+    link.href = news.url; 
+    link.textContent = news.url;  
+  
+    cardContent.append(title, description, link);
+    card.appendChild(cardContent);
+  
+    return card;
+  };
+
+  

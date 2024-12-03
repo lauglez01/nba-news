@@ -1,19 +1,17 @@
-import { latestNew } from "../../classes/latestNews";
+import { latestNews } from "../classes/latestNews";
 
-export let promiseParserToClass = (literObjectNews) => {
-    return new Promise((resolve, reject) => {
-      if (literObjectNews !== null && literObjectNews !== undefined) {
-        let newsClass = literObjectCars.map((news) => {
-          let newNew = new latestNew(news.id, news.name);
-          newNew.all = news.all;
-          newNew.nba = news.nba;
-          newNew.espn = car.espn;
-          return newNew;
-        });
-        resolve(newsClass);
-      } else {
-        reject("promiseParserToClass: literObjectCars is null or undefined");
-      }
-    });
-  };
+export const fetchAndParseNews = (newsUrl, options) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const response = await fetch(newsUrl, options);
+      const json = await response.json();
+      const newsList = json.map(news => {
+        return new latestNews(news.title, news.source, news.url);
+      });
+      resolve(newsList);
+    } catch (error) {
+      reject('Error fetching and parsing news:', error);
+    }
+  });
+};
   

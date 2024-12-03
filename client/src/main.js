@@ -1,8 +1,11 @@
 import { api_source, url, options } from "./api";
+import { fetchAndParseNews } from "./helpers/promiseHelper";
+import { createContainer, createCard } from "./helpers/domHelper";
+
 import "./style.css";
 
-const container = document.createElement("div");
-container.classList.add("container");
+const container = createContainer("container");
+const containerCard = createContainer("container-card");
 
 const containerFilter = document.createElement("div");
 containerFilter.classList.add("container-filter");
@@ -12,9 +15,6 @@ span.textContent = "Filter by source: ";
 
 const select = document.createElement("select");
 select.classList.add("styled-select");
-
-const containerCard = document.createElement("div");
-containerCard.classList.add("container-card");
 
 document.body.appendChild(container);
 container.append(containerFilter, containerCard);
@@ -26,7 +26,7 @@ const getFilters = async () => {
     const json = await response.json();
     json.forEach((filter) => {
       const option = document.createElement("option");
-      option.value = filter.id;
+      option.value = filter.name;
       option.textContent = filter.name;
       select.appendChild(option);
     });
@@ -39,38 +39,24 @@ const getFilters = async () => {
 const getNews = async () => {
   try {
     containerCard.innerHTML = "";
-
     const selectedSource = select.value;
-    const newsUrl = selectedSource ? `${url}?source=${selectedSource}` : url;
+    const newsUrl =
+      selectedSource === "all"
+        ? "https://nba-latest-news.p.rapidapi.com/articles"
+        : `${url}?source=${selectedSource}`;
 
-    const response = await fetch(newsUrl, options);
-    const json = await response.json();
-    json.forEach((news) => {
-      const card = document.createElement("div");
-      card.classList.add("card");
-
-      const cardContent = document.createElement("div");
-      cardContent.classList.add("card-content");
-
-      const title = document.createElement("h2");
-      title.classList.add("card-title");
-      title.textContent = news.title;
-
-      const p = document.createElement("p");
-      p.classList.add("card-description");
-      p.textContent = news.url;
-
-
-      cardContent.append(title, p);
-      card.appendChild(cardContent);
+    const newsList = await fetchAndParseNews(newsUrl, options);
+    newsList.forEach((news) => {
+      const card = createCard(news);
       containerCard.appendChild(card);
     });
-
-    console.log("Noticias cargadas:", json);
   } catch (error) {
     console.error("Error al cargar noticias:", error.message);
   }
 };
+
+//cada vez que se cambia el select, hace el getNews
+select.addEventListener("change", getNews);
 
 getFilters();
 getNews();
