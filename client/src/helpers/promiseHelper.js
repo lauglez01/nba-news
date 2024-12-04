@@ -9,7 +9,9 @@ export const parseNews = (json) => {
       });
       resolve(newsList);
     } catch (error) {
-      reject('Error fetching and parsing news:', error);
+      error = new Error("object is null or undefined");
+      error.name = "parseNews";
+      reject(error);
     }
   });
 };
