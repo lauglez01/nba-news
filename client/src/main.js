@@ -46,8 +46,7 @@ const getNews = async () => {
         : `${url}?source=${selectedSource}`;
 
     const response = await fetch(newsUrl, options);
-    const json = await response.json();  
-      
+    const json = await response.json();    
     const newsList = await parseNews(json);
     newsList.forEach((news) => {
       const card = createCard(news);
