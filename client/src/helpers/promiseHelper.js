@@ -2,13 +2,15 @@ import { LatestNews } from "../classes/latestNews";
 
 export const parseNews = (json) => {
   return new Promise((resolve, reject) => {
-    try {
+    if(json !== null && json !==undefined){
       const newsList = json.map(news => {
       return new LatestNews(news.title, news.source, news.url);
       });
       resolve(newsList);
-    } catch (error) {
-      reject('Error fetching and parsing news:', error);
+    } else {
+      let error = new Error("object is null or undefined")
+      error.name = "parseNews";
+      reject(error);
     }
   });
 };
