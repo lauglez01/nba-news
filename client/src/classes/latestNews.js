@@ -1,4 +1,4 @@
-export class latestNews {
+export class LatestNews {
   #title;
   #source;
   #url;

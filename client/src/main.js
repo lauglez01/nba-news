@@ -1,5 +1,5 @@
 import { api_source, url, options } from "./api";
-import { fetchAndParseNews } from "./helpers/promiseHelper";
+import { parseNews } from "./helpers/promiseHelper";
 import { createContainer, createCard } from "./helpers/domHelper";
 
 import "./style.css";
@@ -45,7 +45,10 @@ const getNews = async () => {
         ? `${url}`
         : `${url}?source=${selectedSource}`;
 
-    const newsList = await fetchAndParseNews(newsUrl, options);
+    const response = await fetch(newsUrl, options);
+    const json = await response.json();  
+      
+    const newsList = await parseNews(json);
     newsList.forEach((news) => {
       const card = createCard(news);
       containerCard.appendChild(card);

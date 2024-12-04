@@ -1,12 +1,11 @@
-import { latestNews } from "../classes/latestNews";
+import { LatestNews } from "../classes/latestNews";
 
-export const fetchAndParseNews = (newsUrl, options) => {
-  return new Promise(async (resolve, reject) => {
+export const parseNews = (json) => {
+  return new Promise((resolve, reject) => {
     try {
-      const response = await fetch(newsUrl, options);
-      const json = await response.json();
+      
       const newsList = json.map(news => {
-        return new latestNews(news.title, news.source, news.url);
+        return new LatestNews(news.title, news.source, news.url);
       });
       resolve(newsList);
     } catch (error) {
