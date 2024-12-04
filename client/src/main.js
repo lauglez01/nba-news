@@ -42,7 +42,7 @@ const getNews = async () => {
     const selectedSource = select.value;
     const newsUrl =
       selectedSource === "all"
-        ? "https://nba-latest-news.p.rapidapi.com/articles"
+        ? `${url}`
         : `${url}?source=${selectedSource}`;
 
     const newsList = await fetchAndParseNews(newsUrl, options);
