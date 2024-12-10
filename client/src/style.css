@@ -1,8 +1,8 @@
 html,
 body {
-  margin: 0; /* Elimina los márgenes por defecto */
-  padding: 0; /* Elimina los rellenos por defecto */
-  height: 100%; /* Asegúrate de que ocupen todo el viewport */
+  margin: 0; 
+  padding: 0; 
+  height: 100%;
   width: 100%;
 }
 
